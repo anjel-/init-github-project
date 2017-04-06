@@ -11,6 +11,7 @@
 #: CHANGELOG:
 #: DATE:          AUTHOR:          CHANGES:
 #: 27-03-2017     anjel-           start of the project
+#: 06.04.2017     anjel-           extended .gitignore with working folders
 ### external parameters #######################################################
 set +x
 declare -r GIT_USER="${GIT_USER:-unknown}"             # Github username
@@ -130,9 +131,20 @@ function init_project { #@ init the github project
   echo "# $description" >> README.md
   git add README.md
   [[ ! -f .gitignore ]] && touch .gitignore||true
+  cat >> ./.gitignore <<EOF
+#archive folder to keep old files
+archive/
+#playground for the project
+work/
+#Windows editors backups
+*.bak
+EOF
+  [[ -d ./archive/ ]]||mkdir ./archive/
+  [[ -d ./work/ ]]|| mkdir ./work/
   git add .gitignore
   git commit -m "initial commit for $project"
   git remote add origin $GIT_URL/$GIT_USER/${project}.git
+  print "Trying to push to Github"
   (( _DRYRUN )) && print "pushing to master@origin"|| git push -u origin master
 } #init_project
 ###
