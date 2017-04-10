@@ -128,7 +128,9 @@ function init_project { #@ init the github project
   then die "initializing a git project"
   fi
   echo "# Project: $project" > README.md
-  echo "# $description" >> README.md
+  echo "$description" >> README.md
+  echo "" >> README.md
+  echo "## Quickstart" >> README.md
   git add README.md
   [[ ! -f .gitignore ]] && touch .gitignore||true
   cat >> ./.gitignore <<EOF
